@@ -1,10 +1,13 @@
 import React, { Component } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
-import { getMetricMetaInfo, timeToString } from "../utils/helpers";
+import { Ionicons } from "@expo/vector-icons";
 
+import { getMetricMetaInfo, timeToString } from "../utils/helpers";
+import { submitEntry, removeEntry } from "./../utils/api";
 import UdaciSlider from "./UdaciSlider";
 import UdaciStepper from "./UdaciStepper";
 import DateHeader from "./DateHeader";
+import TextButton from "./TextButton";
 
 const SubmitBtn = ({ onPress }) => {
   return (
@@ -73,13 +76,33 @@ class AddEntry extends Component {
 
     // Navigate to home
     // Save to 'DB'
+    submitEntry(key, entry);
     // Clear local notification
+  };
+
+  reset = () => {
+    const key = timeToString();
+
+    // update Redux
+    // route to home
+    // update 'DB'
+    removeEntry(key);
   };
 
   render() {
     const info = getMetricMetaInfo();
     const today = new Date(Date.now()).toLocaleDateString();
-    console.log("Date: ", today, typeof today);
+
+    if (this.props.alreadyLogged) {
+      return (
+        <View>
+          <Ionicons name="ios-happy" size={100} />
+          <Text>You already logged your info for today.</Text>
+          <TextButton onPress={this.reset}>Reset</TextButton>
+        </View>
+      );
+    }
+
     return (
       <View>
         <Text>{JSON.stringify(this.state)}</Text>
