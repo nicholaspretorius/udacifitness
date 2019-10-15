@@ -1,13 +1,15 @@
 import React, { Component } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
+import { connect } from "react-redux";
 import { Ionicons } from "@expo/vector-icons";
 
-import { getMetricMetaInfo, timeToString } from "../utils/helpers";
+import { getMetricMetaInfo, timeToString, getDailyReminderValue } from "../utils/helpers";
 import { submitEntry, removeEntry } from "./../utils/api";
 import UdaciSlider from "./UdaciSlider";
 import UdaciStepper from "./UdaciStepper";
 import DateHeader from "./DateHeader";
 import TextButton from "./TextButton";
+import { addEntry } from "./../actions";
 
 const SubmitBtn = ({ onPress }) => {
   return (
@@ -65,6 +67,12 @@ class AddEntry extends Component {
     const entry = this.state;
 
     // Update Redux
+    const { dispatch } = this.props;
+    dispatch(
+      addEntry({
+        [key]: entry
+      })
+    );
 
     this.setState(() => ({
       run: 0,
@@ -84,6 +92,12 @@ class AddEntry extends Component {
     const key = timeToString();
 
     // update Redux
+    const { dispatch } = this.props;
+    dispatch(
+      addEntry({
+        [key]: getDailyReminderValue()
+      })
+    );
     // route to home
     // update 'DB'
     removeEntry(key);
@@ -139,4 +153,12 @@ class AddEntry extends Component {
   }
 }
 
-export default AddEntry;
+function mapStateToProps(state) {
+  const key = timeToString();
+
+  return {
+    alreadyLogged: state[key] && typeof state[key].today === "undefined"
+  };
+}
+
+export default connect(mapStateToProps)(AddEntry);
