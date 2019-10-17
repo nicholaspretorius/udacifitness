@@ -1,60 +1,60 @@
 import React from "react";
-import { View, Text, TouchableOpacity, Platform, StyleSheet } from "react-native";
+import { Platform, View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import { FontAwesome, Entypo } from "@expo/vector-icons";
-import { white, gray, purple } from "./../utils/colors";
+import { purple, gray, white } from "../utils/colors";
 
-const UdaciStepper = ({ max, unit, step, value, onIncrement, onDecrement }) => {
+export default function UdaciStepper({ max, unit, step, value, onIncrement, onDecrement }) {
   return (
-    <View style={(styles.row, { justifyContent: "space-between" })}>
-      <View style={{ flexDirection: "row" }}>
-        {Platform.OS === "ios" ? (
-          <View style={{ flexDirection: "row" }}>
-            <TouchableOpacity
-              onPress={onDecrement}
-              style={[styles.btniOS, { borderTopRightRadius: 0, borderBottomRightRadius: 0 }]}
-            >
-              <FontAwesome name="minus" size={30} color={purple} />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={onIncrement}
-              style={[styles.btniOS, { borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }]}
-            >
-              <FontAwesome name="plus" size={30} color={purple} />
-            </TouchableOpacity>
-          </View>
-        ) : (
-          <View style={{ flexDirection: "row" }}>
-            <TouchableOpacity
-              onPress={onDecrement}
-              style={[styles.btnAnd, { borderTopRightRadius: 0, borderBottomRightRadius: 0 }]}
-            >
-              <Entypo name="minus" size={30} color={purple} />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={onIncrement}
-              style={[styles.btnAnd, { borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }]}
-            >
-              <Entypo name="plus" size={30} color={purple} />
-            </TouchableOpacity>
-          </View>
-        )}
-        <View style={styles.metricCounter}>
-          <Text style={{ fontSize: 24, textAlign: "center" }}>{value}</Text>
-          <Text style={{ fontSize: 18, color: gray }}>{unit}</Text>
+    <View style={[styles.row, { justifyContent: "space-between" }]}>
+      {Platform.OS === "ios" ? (
+        <View style={{ flexDirection: "row" }}>
+          <TouchableOpacity
+            style={[styles.iosBtn, { borderTopRightRadius: 0, borderBottomRightRadius: 0 }]}
+            onPress={onDecrement}
+          >
+            <Entypo name="minus" size={30} color={purple} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              styles.iosBtn,
+              { borderTopLeftRadius: 0, borderBottomLeftRadius: 0, borderLeftWidth: 0 }
+            ]}
+            onPress={onIncrement}
+          >
+            <Entypo name="plus" size={30} color={purple} />
+          </TouchableOpacity>
         </View>
-      </View>
+      ) : (
+        <View style={{ flexDirection: "row" }}>
+          <TouchableOpacity style={styles.androidBtn} onPress={onDecrement}>
+            <FontAwesome name="minus" size={30} color={white} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.androidBtn} onPress={onIncrement}>
+            <FontAwesome name="plus" size={30} color={white} />
+          </TouchableOpacity>
+        </View>
       )}
+      <View style={styles.metricCounter}>
+        <Text style={{ fontSize: 24, textAlign: "center" }}>{value}</Text>
+        <Text style={{ fontSize: 18, color: gray }}>{unit}</Text>
+      </View>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   row: {
-    flex: 1,
     flexDirection: "row",
+    flex: 1,
     alignItems: "center"
   },
-  btniOS: {
+  androidBtn: {
+    margin: 5,
+    backgroundColor: purple,
+    padding: 10,
+    borderRadius: 2
+  },
+  iosBtn: {
     backgroundColor: white,
     borderColor: purple,
     borderWidth: 1,
@@ -63,18 +63,9 @@ const styles = StyleSheet.create({
     paddingLeft: 25,
     paddingRight: 25
   },
-  btnAnd: {
-    margin: 5,
-    backgroundColor: purple,
-    padding: 10,
-    borderRadius: 2,
-    color: white
-  },
   metricCounter: {
-    width: 80,
+    width: 85,
     justifyContent: "center",
     alignItems: "center"
   }
 });
-
-export default UdaciStepper;
