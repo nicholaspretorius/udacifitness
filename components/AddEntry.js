@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Platform } from "react-native";
 import { connect } from "react-redux";
 import { Ionicons } from "@expo/vector-icons";
+import { NavigationActions } from "react-navigation";
 
 import { white, purple } from "./../utils/colors";
 import { getMetricMetaInfo, timeToString, getDailyReminderValue } from "../utils/helpers";
@@ -87,6 +88,7 @@ class AddEntry extends Component {
     }));
 
     // Navigate to home
+    this.toHome();
     // Save to 'DB'
     submitEntry(key, entry);
     // Clear local notification
@@ -103,8 +105,17 @@ class AddEntry extends Component {
       })
     );
     // route to home
+    this.toHome();
     // update 'DB'
     removeEntry(key);
+  };
+
+  toHome = () => {
+    this.props.navigation.dispatch(
+      NavigationActions.back({
+        key: "AddEntry"
+      })
+    );
   };
 
   render() {
