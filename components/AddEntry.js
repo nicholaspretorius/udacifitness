@@ -25,11 +25,11 @@ const SubmitBtn = ({ onPress }) => {
 
 class AddEntry extends Component {
   state = {
-    run: 5,
-    bike: 10,
-    swim: 10,
-    sleep: 10,
-    eat: 3
+    run: 0,
+    bike: 0,
+    swim: 0,
+    sleep: 0,
+    eat: 0
   };
 
   // only for run, bike, swim steppers
@@ -125,7 +125,6 @@ class AddEntry extends Component {
 
     return (
       <View style={styles.container}>
-        <Text>{JSON.stringify(this.state)}</Text>
         <DateHeader date={today} />
         {Object.keys(info).map(key => {
           const { getIcon, type, ...rest } = info[key];
