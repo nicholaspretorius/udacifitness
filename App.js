@@ -12,6 +12,7 @@ import reducer from "./reducers";
 import AddEntry from "./components/AddEntry";
 import History from "./components/History";
 import EntryDetail from "./components/EntryDetail";
+import Live from "./components/Live";
 import { purple, white } from "./utils/colors";
 
 function UdaciStatusBar({ backgroundColor, ...props }) {
@@ -31,6 +32,9 @@ const Tabs = createBottomTabNavigator(
     },
     AddEntry: {
       screen: AddEntry
+    },
+    Live: {
+      screen: Live
     }
   },
   {
@@ -43,6 +47,8 @@ const Tabs = createBottomTabNavigator(
           iconName = `ios-bookmarks`;
         } else if (routeName === "AddEntry") {
           iconName = `ios-add`;
+        } else if (routeName === "Live") {
+          iconName = `ios-speedometer`;
         }
         return <IconComponent name={iconName} size={30} color={tintColor} />;
       }
