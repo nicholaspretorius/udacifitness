@@ -14,6 +14,7 @@ import History from "./components/History";
 import EntryDetail from "./components/EntryDetail";
 import Live from "./components/Live";
 import { purple, white } from "./utils/colors";
+import { setLocalNotification } from "./utils/helpers";
 
 function UdaciStatusBar({ backgroundColor, ...props }) {
   return (
@@ -88,9 +89,7 @@ const Navigation = createAppContainer(MainNavigator);
 
 class App extends React.Component {
   componentDidMount() {
-    console.log("Hello!");
-    debugger;
-    console.log("Bye!");
+    setLocalNotification();
   }
 
   render() {
